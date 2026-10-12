@@ -21,23 +21,23 @@
 | src/timoshenko/oma.py          |      132 |       11 |     92% |96, 138, 155, 248, 250, 255, 258, 260-261, 265, 277 |
 | src/timoshenko/plugins.py      |       87 |       10 |     89% |45, 47, 78, 112, 127-130, 138, 141 |
 | src/timoshenko/polygon.py      |      188 |       21 |     89% |93, 102, 119, 127, 129, 135, 150, 171, 175, 180, 194, 197, 203-204, 206, 208, 217, 219-220, 224, 226 |
-| src/timoshenko/pressure.py     |       15 |        2 |     87% |    29, 31 |
+| src/timoshenko/pressure.py     |       13 |        0 |    100% |           |
 | src/timoshenko/project.py      |      152 |       20 |     87% |98, 101, 107, 120, 123, 126, 129-130, 135, 141, 146, 153, 157, 162, 165, 170, 202, 231, 236, 240 |
 | src/timoshenko/report.py       |       81 |        6 |     93% |14, 21, 32, 120, 135, 139 |
 | src/timoshenko/sections.py     |       77 |        4 |     95% |87, 113, 133, 138 |
 | src/timoshenko/sensors.py      |       93 |        0 |    100% |           |
 | src/timoshenko/sensorthings.py |      179 |        2 |     99% |     68-69 |
 | src/timoshenko/session.py      |      247 |       22 |     91% |36, 68, 90, 130, 142, 144, 150, 152, 154, 156, 160, 213, 226, 239, 243, 256, 285, 339, 362, 367, 371, 390 |
-| src/timoshenko/shafts.py       |       18 |        2 |     89% |    33, 35 |
-| src/timoshenko/stability.py    |       14 |        2 |     86% |    24, 37 |
+| src/timoshenko/shafts.py       |       21 |        1 |     95% |        37 |
+| src/timoshenko/stability.py    |       17 |        0 |    100% |           |
 | src/timoshenko/storage.py      |      190 |        1 |     99% |       452 |
-| src/timoshenko/strength.py     |       17 |        1 |     94% |        25 |
+| src/timoshenko/strength.py     |       18 |        0 |    100% |           |
 | src/timoshenko/structural.py   |      962 |       89 |     91% |107, 158, 171-173, 241, 276, 289, 292, 296, 302, 322, 335, 339, 343, 369, 371, 375, 380, 382, 389, 400-405, 415, 423, 520, 537, 542, 585, 587, 591, 599, 601, 603, 605, 607, 610-611, 613, 620, 663, 666, 732, 785, 791, 795, 814-815, 838, 845-846, 857, 873, 927, 929, 940, 945-946, 956, 980, 1043, 1045, 1049, 1052, 1056-1057, 1072-1073, 1083, 1128, 1132, 1153, 1184, 1226, 1283, 1302, 1330, 1361-1363, 1484-1489, 1511, 1550 |
 | src/timoshenko/structure.py    |       63 |        3 |     95% |44, 53, 59 |
 | src/timoshenko/uncertainty.py  |      172 |        7 |     96% |127-128, 180, 185, 215-216, 232 |
 | src/timoshenko/update.py       |       22 |        3 |     86% |24, 26, 41 |
 | src/timoshenko/vibration.py    |       81 |        9 |     89% |22, 50, 54, 86, 95, 101, 125, 141, 144 |
-| **TOTAL**                      | **3723** |  **301** | **92%** |           |
+| **TOTAL**                      | **3728** |  **295** | **92%** |           |
 
 
 ## Setup coverage badge
