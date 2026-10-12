@@ -75,6 +75,11 @@ Maintainers publish releases from GitHub Releases. The release workflow tests
 the tagged source, builds the distributions, and uploads them to PyPI through
 trusted publishing. Zenodo archives each release with its own DOI.
 
+## Code of conduct
+
+This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md). By
+taking part, you agree to uphold it.
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the
