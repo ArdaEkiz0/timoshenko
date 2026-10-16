@@ -17,6 +17,7 @@
   <a href="https://github.com/Ayberkrk/timoshenko/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/Ayberkrk/timoshenko/actions/workflows/tests.yml/badge.svg"></a>
   <a href="https://github.com/Ayberkrk/timoshenko/tree/python-coverage-comment-action-data"><img alt="Coverage" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAyberkrk%2Ftimoshenko%2Fpython-coverage-comment-action-data%2Fendpoint.json&style=for-the-badge"></a>
   <a href="https://timoshenko.readthedocs.io/en/latest/"><img alt="Documentation" src="https://img.shields.io/readthedocs/timoshenko?style=for-the-badge"></a>
+  <a href="https://github.com/Ayberkrk/timoshenko/labels/good%20first%20issue"><img alt="Good first issues" src="https://img.shields.io/github/issues/Ayberkrk/timoshenko/good%20first%20issue?style=for-the-badge&label=good%20first%20issues"></a>
 </p>
 
 Timoshenko packages common structural calculations, modal analysis, sensor
