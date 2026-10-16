@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 from importlib import import_module
 import json
 import math
@@ -238,10 +239,8 @@ class MqttObservationSource:
         with self._state_lock:
             if self._failure is None:
                 self._failure = error
-        try:
+        with contextlib.suppress(Full):
             self._queue.put_nowait(_STOP)
-        except Full:
-            pass
 
     def _raise_failure(self) -> None:
         with self._state_lock:
@@ -283,10 +282,8 @@ class MqttObservationSource:
         client, self._client = self._client, None
         self._opened = False
         self._connected.set()
-        try:
+        with contextlib.suppress(Full):
             self._queue.put_nowait(_STOP)
-        except Full:
-            pass
         if client is None:
             return
         try:

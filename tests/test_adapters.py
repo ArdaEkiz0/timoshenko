@@ -123,9 +123,8 @@ def test_runner_ingests_acknowledges_and_closes():
 
 def test_runner_closes_source_on_read_error_and_early_exit():
     failing = ListSource([], fail_at=0)
-    with pytest.raises(OSError):
-        with tm.SessionRunner(failing, session()) as runner:
-            list(runner)
+    with pytest.raises(OSError), tm.SessionRunner(failing, session()) as runner:
+        list(runner)
     assert failing.closed == 1
     partial = ListSource([obs_batch(0, 8, "b1"), obs_batch(8, 8, "b2")])
     with tm.SessionRunner(partial, session(), max_batches=1) as runner:
@@ -183,9 +182,8 @@ def test_runner_cleans_up_after_open_failure_and_preserves_primary_error():
             raise RuntimeError("close failed")
 
     runner = tm.SessionRunner(OpenAndCloseFailure(), session())
-    with pytest.raises(OSError, match="open failed") as captured:
-        with runner:
-            pytest.fail("open should fail before the context is entered")
+    with pytest.raises(OSError, match="open failed") as captured, runner:
+        pytest.fail("open should fail before the context is entered")
     if hasattr(captured.value, "__notes__"):
         assert any("cleanup after open failure" in note for note in captured.value.__notes__)
 
@@ -195,30 +193,38 @@ def test_runner_close_failure_is_raised_or_attached_to_body_error():
         def close(self):
             raise RuntimeError("close failed")
 
-    with pytest.raises(RuntimeError, match="close failed"):
-        with tm.SessionRunner(CloseFailure([]), session()):
-            pass
+    with (
+        pytest.raises(RuntimeError, match="close failed"),
+        tm.SessionRunner(CloseFailure([]), session()),
+    ):
+        pass
 
-    with pytest.raises(ValueError, match="body failed") as captured:
-        with tm.SessionRunner(CloseFailure([]), session()):
-            raise ValueError("body failed")
+    with (
+        pytest.raises(ValueError, match="body failed") as captured,
+        tm.SessionRunner(CloseFailure([]), session()),
+    ):
+        raise ValueError("body failed")
     if hasattr(captured.value, "__notes__"):
         assert any("also failed" in note for note in captured.value.__notes__)
 
 
 def test_runner_rejects_invalid_batches_and_propagates_acknowledgement_errors():
-    with pytest.raises(TypeError, match="must return ObservationBatch or None"):
-        with tm.SessionRunner(ListSource(["not a batch"]), session()) as runner:
-            list(runner)
+    with (
+        pytest.raises(TypeError, match="must return ObservationBatch or None"),
+        tm.SessionRunner(ListSource(["not a batch"]), session()) as runner,
+    ):
+        list(runner)
 
     class AckFailure(ListSource):
         def acknowledge(self, batch, result):
             raise OSError("acknowledgement failed")
 
     source = AckFailure([obs_batch(0, 8, "b1")])
-    with pytest.raises(OSError, match="acknowledgement failed"):
-        with tm.SessionRunner(source, session()) as runner:
-            list(runner)
+    with (
+        pytest.raises(OSError, match="acknowledgement failed"),
+        tm.SessionRunner(source, session()) as runner,
+    ):
+        list(runner)
     assert source.closed == 1
 
 

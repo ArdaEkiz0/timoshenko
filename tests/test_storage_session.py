@@ -76,9 +76,13 @@ def test_newer_schema_is_refused(tmp_path):
 
 
 def make_session(**kwargs):
-    defaults = dict(
-        sensor_ids=["a"], units=["g"], sampling_hz=100.0, window_samples=256, hop_samples=128
-    )
+    defaults = {
+        "sensor_ids": ["a"],
+        "units": ["g"],
+        "sampling_hz": 100.0,
+        "window_samples": 256,
+        "hop_samples": 128,
+    }
     defaults.update(kwargs)
     return tm.MonitoringSession(tm.Structure([1.0e5], [2.0e8]), **defaults)
 

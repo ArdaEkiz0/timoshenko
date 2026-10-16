@@ -36,7 +36,7 @@ E, G, NU = 11e9, 0.69e9, 0.3
 section = tm.rectangle_section(width_m=0.2, height_m=0.6)
 KAPPA = 5 / 6  # shear correction factor of a solid rectangle
 SPAN, POINT_LOAD, LINE_LOAD = 3.0, 10e3, 5e3
-SHEAR = dict(shear_modulus_pa=G, area_m2=section.area_m2, shear_correction=KAPPA)
+SHEAR = {"shear_modulus_pa": G, "area_m2": section.area_m2, "shear_correction": KAPPA}
 I_STRONG = (
     section.second_moment_y_m4
 )  # Timoshenko y axis is the width axis, i.e. bending of the height

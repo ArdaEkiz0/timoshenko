@@ -353,10 +353,7 @@ class MonitoringSession:
         )
 
     def _latest_contiguous_window(self) -> tuple[list[int], np.ndarray] | None:
-        values_by_sensor = {
-            sensor_id: {key: value for key, value in buffer}
-            for sensor_id, buffer in self._buffers.items()
-        }
+        values_by_sensor = {sensor_id: dict(buffer) for sensor_id, buffer in self._buffers.items()}
         common = set.intersection(*(set(values) for values in values_by_sensor.values()))
         if not common:
             return None

@@ -44,9 +44,12 @@ def test_first_order_on_engine_equation_matches_analytic_derivatives():
 
 
 def test_monte_carlo_linear_function_matches_normal_result_and_is_seeded():
-    kwargs = dict(
-        standard_uncertainties={"a": 0.2, "b": 0.1}, method="monte_carlo", samples=50_000, seed=11
-    )
+    kwargs = {
+        "standard_uncertainties": {"a": 0.2, "b": 0.1},
+        "method": "monte_carlo",
+        "samples": 50_000,
+        "seed": 11,
+    }
     first = tm.propagate_uncertainty(
         lambda a, b: 2.0 * a - 3.0 * b, {"a": 10.0, "b": 4.0}, **kwargs
     )
@@ -63,14 +66,14 @@ def test_monte_carlo_linear_function_matches_normal_result_and_is_seeded():
 @pytest.mark.parametrize(
     "kwargs",
     [
-        dict(covariance=[[1.0, 2.0], [2.0, 1.0]]),
-        dict(covariance=[[1.0, 0.5], [0.4, 1.0]]),
-        dict(standard_uncertainties={"a": 0.1}),
-        dict(standard_uncertainties={"a": 0.1, "b": 0.1}, covariance=[[1, 0], [0, 1]]),
-        dict(standard_uncertainties={"a": -0.1, "b": 0.1}),
-        dict(standard_uncertainties={"a": 0.1, "b": 0.1}, method="bayes"),
-        dict(standard_uncertainties={"a": 0.1, "b": 0.1}, confidence_level=0.4),
-        dict(standard_uncertainties={"a": 0.1, "b": 0.1}, method="monte_carlo", samples=10),
+        {"covariance": [[1.0, 2.0], [2.0, 1.0]]},
+        {"covariance": [[1.0, 0.5], [0.4, 1.0]]},
+        {"standard_uncertainties": {"a": 0.1}},
+        {"standard_uncertainties": {"a": 0.1, "b": 0.1}, "covariance": [[1, 0], [0, 1]]},
+        {"standard_uncertainties": {"a": -0.1, "b": 0.1}},
+        {"standard_uncertainties": {"a": 0.1, "b": 0.1}, "method": "bayes"},
+        {"standard_uncertainties": {"a": 0.1, "b": 0.1}, "confidence_level": 0.4},
+        {"standard_uncertainties": {"a": 0.1, "b": 0.1}, "method": "monte_carlo", "samples": 10},
     ],
 )
 def test_invalid_uncertainty_configuration_is_rejected(kwargs):
@@ -117,102 +120,112 @@ def test_non_callable_function_raises_type_error():
 @pytest.mark.parametrize(
     ("inputs", "kwargs", "match"),
     [
-        ({}, dict(standard_uncertainties={}), "inputs must be a non-empty mapping"),
-        ({1: 1.0}, dict(standard_uncertainties={1: 0.1}), "input names must be strings"),
+        ({}, {"standard_uncertainties": {}}, "inputs must be a non-empty mapping"),
+        ({1: 1.0}, {"standard_uncertainties": {1: 0.1}}, "input names must be strings"),
         (
             {"": 1.0},
-            dict(standard_uncertainties={"": 0.1}),
+            {"standard_uncertainties": {"": 0.1}},
             "input names must be non-empty and distinct",
         ),
         (
             {" x ": 1.0},
-            dict(standard_uncertainties={" x ": 0.1}),
+            {"standard_uncertainties": {" x ": 0.1}},
             "input names must be non-empty and distinct",
         ),
         (
             {f"x{i}": 1.0 for i in range(33)},
-            dict(standard_uncertainties={f"x{i}": 0.1 for i in range(33)}),
+            {"standard_uncertainties": {f"x{i}": 0.1 for i in range(33)}},
             "at most 32 uncertain inputs are supported",
         ),
         (
             {"x": True},
-            dict(standard_uncertainties={"x": 0.1}),
+            {"standard_uncertainties": {"x": 0.1}},
             "input 'x' must be a finite real number",
         ),
         (
             {"x": [1.0]},
-            dict(standard_uncertainties={"x": 0.1}),
+            {"standard_uncertainties": {"x": 0.1}},
             "input 'x' must be a finite real number",
         ),
         (
             {"x": "bad"},
-            dict(standard_uncertainties={"x": 0.1}),
+            {"standard_uncertainties": {"x": 0.1}},
             "input 'x' must be a finite real number",
         ),
         (
             {"x": math.nan},
-            dict(standard_uncertainties={"x": 0.1}),
+            {"standard_uncertainties": {"x": 0.1}},
             "input 'x' must be a finite real number",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 1e200}),
+            {"standard_uncertainties": {"x": 1e200}},
             "standard uncertainties are too large to form finite variances",
         ),
-        ({"x": 1.0}, dict(covariance=[["bad"]]), "covariance must be a numeric square matrix"),
+        ({"x": 1.0}, {"covariance": [["bad"]]}, "covariance must be a numeric square matrix"),
         (
             {"x": 1.0, "y": 2.0},
-            dict(covariance=[[1.0, 0.0]]),
+            {"covariance": [[1.0, 0.0]]},
             "covariance must be a finite square matrix ordered like inputs",
         ),
         (
             {"x": 1.0},
-            dict(covariance=[[math.inf]]),
+            {"covariance": [[math.inf]]},
             "covariance must be a finite square matrix ordered like inputs",
         ),
         (
             {"x": 1.0, "y": 2.0},
-            dict(covariance=[[1.0, 0.5], [0.4, 1.0]]),
+            {"covariance": [[1.0, 0.5], [0.4, 1.0]]},
             "covariance matrix must be symmetric",
         ),
         (
             {"x": 1.0, "y": 2.0},
-            dict(covariance=[[1.0, 2.0], [2.0, 1.0]]),
+            {"covariance": [[1.0, 2.0], [2.0, 1.0]]},
             "covariance matrix must be positive semidefinite",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 0.1}, confidence_level=0.95, relative_step=0.0),
+            {"standard_uncertainties": {"x": 0.1}, "confidence_level": 0.95, "relative_step": 0.0},
             "relative_step must be greater than 0 and less than 0.1",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 0.1}, confidence_level=0.95, relative_step=0.2),
+            {"standard_uncertainties": {"x": 0.1}, "confidence_level": 0.95, "relative_step": 0.2},
             "relative_step must be greater than 0 and less than 0.1",
         ),
         (
             {"x": 1e-320},
-            dict(standard_uncertainties={"x": 0.0}, relative_step=1e-10),
+            {"standard_uncertainties": {"x": 0.0}, "relative_step": 1e-10},
             "could not choose a finite difference step for 'x'",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 0.1}, method="monte_carlo", samples="bad"),
+            {"standard_uncertainties": {"x": 0.1}, "method": "monte_carlo", "samples": "bad"},
             "samples must be an integer between 100 and 100000",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 0.1}, method="monte_carlo", samples=True),
+            {"standard_uncertainties": {"x": 0.1}, "method": "monte_carlo", "samples": True},
             "samples must be an integer between 100 and 100000",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 0.1}, method="monte_carlo", samples=100, seed=True),
+            {
+                "standard_uncertainties": {"x": 0.1},
+                "method": "monte_carlo",
+                "samples": 100,
+                "seed": True,
+            },
             "seed must be an integer or None",
         ),
         (
             {"x": 1.0},
-            dict(standard_uncertainties={"x": 0.1}, method="monte_carlo", samples=100, seed="bad"),
+            {
+                "standard_uncertainties": {"x": 0.1},
+                "method": "monte_carlo",
+                "samples": 100,
+                "seed": "bad",
+            },
             "seed must be an integer or None",
         ),
     ],

@@ -78,10 +78,7 @@ class CSVObservationSource:
         if any(not column for column in normalized) or len(set(normalized)) != len(normalized):
             raise ValueError("configured CSV column names must be non-empty and distinct")
         self.path = Path(path)
-        if source_id is None:
-            source_value = f"csv:{self.path.name}"
-        else:
-            source_value = str(source_id).strip()
+        source_value = f"csv:{self.path.name}" if source_id is None else str(source_id).strip()
         if not source_value:
             raise ValueError("source_id must be non-empty")
         self.source_id = source_value
