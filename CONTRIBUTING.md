@@ -37,6 +37,9 @@ python -m mypy                     # type check of src/timoshenko
 python -m mkdocs build --strict    # documentation, if you changed docs/
 ```
 
+Total line coverage must stay at or above 90%: `python -m pytest --cov` exits
+non-zero when it drops below the limit set by `fail_under` in `pyproject.toml`.
+
 The package ships a `py.typed` marker, so type annotations on public functions
 and classes are part of the API. Keep them accurate when you change a
 signature.
