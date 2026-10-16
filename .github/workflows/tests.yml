@@ -36,6 +36,23 @@ jobs:
       - run: python -m pip install -e ".[test]"
       - run: python -m pytest
 
+  pytest-os:
+    # The full Python matrix runs on Ubuntu; this checks the file, path and
+    # SQLite handling on the other two platforms with a single version.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[test]"
+      - run: python -m pytest
+
   coverage:
     runs-on: ubuntu-latest
     permissions:
