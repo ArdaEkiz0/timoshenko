@@ -20,6 +20,10 @@ change is listed here.
 
 - JSON-ready `to_dict()` methods on the closed-form beam, pressure, shaft,
   strength, vibration and section-property result classes.
+- Multi-channel FDD example `examples/multichannel_fdd.py`: a synthetic
+  three-story shear building whose modes are identified with
+  `tm.identify_fdd` and checked against the analytical model with the modal
+  assurance criterion.
 
 ## 2.1.0
 

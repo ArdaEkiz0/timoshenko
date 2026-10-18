@@ -82,6 +82,15 @@ The `MultiChannelData` contract stores synchronized, regularly sampled rows with
 
 FDD expects synchronized channels measuring the same physical quantity in the same units. Missing samples, asynchronous channels, unknown clock offsets, channel gain calibration, and resampling must be handled before constructing `MultiChannelData`. Unit labels are carried into the output but are not converted. A peak is a candidate mode, not automatically a structural mode: close/repeated modes, strong harmonics, low excitation, sensor nodes, nonstationarity, and operating/environmental variation need engineering review. This first FDD implementation does not estimate damping, use an SSI stabilization diagram, identify damage, or normalize temperature effects. See [FDD (Brincker et al., 2001)](https://doi.org/10.1088/0964-1726/10/3/303) and later automated FDD/MAC work [(Cardoni et al., 2025)](https://doi.org/10.1016/j.engstruct.2024.119210).
 
+For a runnable end-to-end walkthrough, `examples/multichannel_fdd.py` synthesizes
+three synchronized channels for a three-story shear building, identifies its modes
+with `tm.identify_fdd`, and compares frequencies and mode shapes with the
+analytical model through the modal assurance criterion:
+
+```
+python examples/multichannel_fdd.py
+```
+
 ## Interpretation and validation
 
 Measured modal parameters vary with environmental and operational conditions. A frequency shift alone is not a damage diagnosis. The review of modal identification under environmental excitation by Zhang et al. (2025) summarizes method and interpretation issues ([DOI: 10.32604/sdhm.2024.053662](https://doi.org/10.32604/sdhm.2024.053662)); bridge SHM literature likewise documents environmental variability as a confounder. Timoshenko reports calculation inputs and outputs without asserting a project-specific safety conclusion.
